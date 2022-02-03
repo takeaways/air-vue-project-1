@@ -1,20 +1,31 @@
 <template lang="">
-  <div>card {{ cid }}</div>
+  <div>
+    Card
+    <div v-if="loading">loading card....</div>
+    <div v-else>cid: {{ cid }}</div>
+  </div>
 </template>
 <script>
 export default {
   data() {
     return {
-      cid: 0
+      cid: 0,
+      loading: false
     };
   },
-  created() {
-    this.cid = this.$route.params.cid;
-  },
   watch: {
-    $route() {
-      console.log(this.$route.params.cid);
+    $route: {
+      handler: "fetchCard",
+      immediate: true
+    }
+  },
+  methods: {
+    fetchCard() {
       this.cid = this.$route.params.cid;
+      this.loading = true;
+      setTimeout(() => {
+        this.loading = false;
+      }, 1000);
     }
   }
 };
