@@ -7,6 +7,20 @@ const instance = axios.create({
   baseURL: DOMAIN
 });
 
+const setAuthInHeader = () => {
+  const token = localStorage.getItem("token");
+  return token ? token : null;
+};
+
+instance.interceptors.request.use(config => {
+  return {
+    ...config,
+    headers: {
+      Authorization: setAuthInHeader()
+    }
+  };
+});
+
 const onUnauthorized = () => {
   router.replace("/login");
 };
@@ -33,7 +47,7 @@ export const board = {
 };
 
 export const user = {
-  login(loginData) {
-    return request("post", "/login", loginData);
+  login(email, password) {
+    return request("post", "/login", { email, password });
   }
 };
