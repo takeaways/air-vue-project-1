@@ -10,9 +10,45 @@
         <li><router-link to="/b/4">4</router-link></li>
       </ul>
     </div>
+    <div v-if="loading">loading data.....</div>
+    <div v-else>
+      <pre>{{ apiRes }}</pre>
+    </div>
+    <div v-if="error">{{ error }}</div>
   </div>
 </template>
 <script>
-export default {};
+import axios from "axios";
+
+export default {
+  data() {
+    return {
+      loading: false,
+      apiRes: "",
+      error: ""
+    };
+  },
+  created() {
+    this.fetchData();
+  },
+  methods: {
+    fetchData() {
+      this.loading = true;
+
+      axios
+        .get("http://localhost:3000/health") //
+        .then(res => {
+          this.apiRes = res.data;
+        })
+        .catch(error => {
+          this.error = error.response.data;
+          console.error(error);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    }
+  }
+};
 </script>
 <style></style>
