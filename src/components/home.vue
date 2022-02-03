@@ -12,6 +12,7 @@
 </template>
 <script>
 import axios from "axios";
+import { board } from "../lib/api";
 
 export default {
   data() {
@@ -27,13 +28,10 @@ export default {
     fetchData() {
       this.loading = true;
 
-      axios
-        .get("http://localhost:3000/boards") //
+      board
+        .getAll()
         .then(res => {
-          this.boards = res.data;
-        })
-        .catch(() => {
-          this.$router.replace("/login");
+          this.boards = res;
         })
         .finally(() => {
           this.loading = false;
