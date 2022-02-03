@@ -3,18 +3,11 @@
     Home
     <div>
       Board List:
-      <ul>
-        <li><router-link to="/b/1">1</router-link></li>
-        <li><router-link to="/b/2">2</router-link></li>
-        <li><router-link to="/b/3">3</router-link></li>
-        <li><router-link to="/b/4">4</router-link></li>
-      </ul>
+      <div v-if="loading">loading data.....</div>
+      <div v-else>
+        <div v-for="b in boards" :key="b.id">{{ b }}</div>
+      </div>
     </div>
-    <div v-if="loading">loading data.....</div>
-    <div v-else>
-      <pre>{{ apiRes }}</pre>
-    </div>
-    <div v-if="error">{{ error }}</div>
   </div>
 </template>
 <script>
@@ -24,8 +17,7 @@ export default {
   data() {
     return {
       loading: false,
-      apiRes: "",
-      error: ""
+      boards: []
     };
   },
   created() {
@@ -36,13 +28,12 @@ export default {
       this.loading = true;
 
       axios
-        .get("http://localhost:3000/health") //
+        .get("http://localhost:3000/boards") //
         .then(res => {
-          this.apiRes = res.data;
+          this.boards = res.data;
         })
-        .catch(error => {
-          this.error = error.response.data;
-          console.error(error);
+        .catch(() => {
+          this.$router.replace("/login");
         })
         .finally(() => {
           this.loading = false;
