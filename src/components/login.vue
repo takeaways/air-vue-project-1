@@ -1,6 +1,9 @@
 <template lang="">
   <div>
-    Login
+    <form>
+      <input type="text" placeholder="email" />
+      <input type="password" placeholder="password" />
+    </form>
   </div>
 </template>
 <script>

@@ -31,3 +31,9 @@ export const board = {
     return request("get", "/boards");
   }
 };
+
+export const user = {
+  login(loginData) {
+    return request("post", "/login", loginData);
+  }
+};
