@@ -11,11 +11,7 @@ import Navbar from "./components/navbar";
 export default {
   name: "app",
   components: { Navbar },
-  data() {
-    return {
-      msg: "Welcome to Your Vue.js App"
-    };
-  }
+  data() {}
 };
 </script>
 
